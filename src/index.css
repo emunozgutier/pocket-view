@@ -571,12 +571,48 @@ input:checked + .slider:before {
 .viewport-canvas-container {
   flex: 1;
   position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.viewport-canvas-scrollable {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.device-scroll-outer {
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
-  padding: 40px;
-  transition: var(--transition-smooth);
+  flex-shrink: 0;
+  margin: auto;
+}
+
+/* Custom scrollbars for canvas and sidebar */
+.viewport-canvas-scrollable::-webkit-scrollbar,
+.settings-sidebar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-track,
+.settings-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-thumb,
+.settings-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-thumb:hover,
+.settings-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Canvas theme backgrounds */

@@ -89,15 +89,24 @@ export default function View({
         <span>Zoom: {Math.round(activeScale * 100)}%</span>
       </div>
 
-      {/* Simulator Device Wrapper (applies scaling) */}
-      <div
-        className="device-scale-wrapper"
-        style={{
-          transform: `scale(${activeScale})`,
-          width: `${screenW}px`,
-          height: `${screenH}px`,
-        }}
-      >
+      {/* Scrollable Container for Device mockup */}
+      <div className="viewport-canvas-scrollable">
+        <div
+          className="device-scroll-outer"
+          style={{
+            width: `${screenW * activeScale}px`,
+            height: `${screenH * activeScale}px`,
+          }}
+        >
+          {/* Simulator Device Wrapper (applies scaling) */}
+          <div
+            className="device-scale-wrapper"
+            style={{
+              transform: `scale(${activeScale})`,
+              width: `${screenW}px`,
+              height: `${screenH}px`,
+            }}
+          >
         <div className={frameClasses}>
           {/* Bezel details (Speaker, Notch, Island, Bezel shine) */}
           {showFrame && (
@@ -155,6 +164,8 @@ export default function View({
               />
             )}
           </div>
+        </div>
+      </div>
         </div>
       </div>
       
