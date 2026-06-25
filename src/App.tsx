@@ -5,7 +5,7 @@ import type { DeviceConfig } from './components/SettingsSideBar';
 import View from './components/View';
 
 function App() {
-  const [url, setUrl] = useState<string>('pocketview://demo');
+  const [url, setUrl] = useState<string>('https://en.m.wikipedia.org/');
   const [selectedDevice, setSelectedDevice] = useState<DeviceConfig>(DEVICES[0]);
   const [isLandscape, setIsLandscape] = useState<boolean>(false);
   const [scale, setScale] = useState<number | 'fit'>('fit');

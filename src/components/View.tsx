@@ -1,9 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import type { DeviceConfig } from './SettingsSideBar';
-import DemoApp from './DemoApp';
 
 const formatDisplayUrl = (urlStr: string) => {
-  if (urlStr === 'pocketview://demo') return 'pocketview.io';
   try {
     const parsed = new URL(urlStr);
     return parsed.hostname;
@@ -37,7 +35,6 @@ export default function View({
 }: ViewProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [fitScale, setFitScale] = useState(1);
-  const isDemo = url === 'pocketview://demo';
 
   // Calculate dynamic scale for 'fit' mode
   useEffect(() => {
@@ -188,17 +185,13 @@ export default function View({
 
                 {/* Browser Viewport Area (the website frame) */}
                 <div className="browser-mobile-content">
-                  {isDemo ? (
-                    <DemoApp />
-                  ) : (
-                    <iframe
-                      key={refreshKey}
-                      src={url}
-                      className="simulated-iframe"
-                      title="Mock iPhone Viewport"
-                      sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
-                    />
-                  )}
+                  <iframe
+                    key={refreshKey}
+                    src={url}
+                    className="simulated-iframe"
+                    title="Mock iPhone Viewport"
+                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
+                  />
                 </div>
 
                 {/* Simulated Bottom Navigation/Tabs Bar */}
@@ -214,17 +207,13 @@ export default function View({
               </div>
             ) : (
               // Standard full-screen viewport (like a native app or direct webapp view)
-              isDemo ? (
-                <DemoApp />
-              ) : (
-                <iframe
-                  key={refreshKey}
-                  src={url}
-                  className="simulated-iframe"
-                  title="Mock iPhone Viewport"
-                  sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
-                />
-              )
+              <iframe
+                key={refreshKey}
+                src={url}
+                className="simulated-iframe"
+                title="Mock iPhone Viewport"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-popups"
+              />
             )}
           </div>
         </div>
@@ -233,13 +222,11 @@ export default function View({
       </div>
       
       {/* Alert modal or helper text for custom URLs */}
-      {!isDemo && (
-        <div className="cors-help-overlay">
-          <p>
-            💡 <strong>Pro-Tip:</strong> Some websites (e.g. google.com, github.com) restrict framing via <code>X-Frame-Options</code> headers. Use local addresses (e.g. <code>localhost:5173</code>) or public mock pages.
-          </p>
-        </div>
-      )}
+      <div className="cors-help-overlay">
+        <p>
+          💡 <strong>Pro-Tip:</strong> Some websites (e.g. google.com, github.com) restrict framing via <code>X-Frame-Options</code> headers. Use local addresses (e.g. <code>localhost:5173</code>) or public mock pages.
+        </p>
+      </div>
     </div>
   );
 }

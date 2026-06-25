@@ -17,13 +17,11 @@ export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     let formattedUrl = inputValue.trim();
-    if (formattedUrl && !/^https?:\/\//i.test(formattedUrl) && formattedUrl !== 'pocketview://demo') {
+    if (formattedUrl && !/^https?:\/\//i.test(formattedUrl)) {
       formattedUrl = `https://${formattedUrl}`;
     }
     onChangeUrl(formattedUrl);
   };
-
-  const isDemo = url === 'pocketview://demo';
 
   return (
     <div className="address-bar-container">
@@ -31,7 +29,7 @@ export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
         <button 
           className="nav-btn" 
           title="Back" 
-          disabled={isDemo}
+          disabled
           type="button"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -41,7 +39,7 @@ export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
         <button 
           className="nav-btn" 
           title="Forward" 
-          disabled={isDemo}
+          disabled
           type="button"
         >
           <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
@@ -61,22 +59,18 @@ export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
       </div>
 
       <form className="url-form" onSubmit={handleSubmit}>
-        <div className={`url-input-wrapper ${isDemo ? 'demo-mode-active' : ''}`}>
+        <div className="url-input-wrapper">
           <span className="security-icon">
-            {isDemo ? (
-              <span className="demo-badge">DEMO</span>
-            ) : (
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
-                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
-              </svg>
-            )}
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+              <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/>
+            </svg>
           </span>
           <input
             type="text"
             className="url-input"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Enter website URL (e.g. wikipedia.org) or use Demo"
+            placeholder="Enter website URL (e.g. wikipedia.org)"
           />
           {inputValue !== url && (
             <button className="go-btn" type="submit">
@@ -88,12 +82,12 @@ export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
 
       <div className="quick-actions">
         <button 
-          className={`demo-toggle-btn ${isDemo ? 'active' : ''}`}
-          onClick={() => onChangeUrl(isDemo ? 'https://wikipedia.org' : 'pocketview://demo')}
-          title="Toggle interactive iOS Demo App"
+          className="demo-toggle-btn active"
+          onClick={() => onChangeUrl('https://en.m.wikipedia.org/')}
+          title="Point simulator to Wikipedia"
           type="button"
         >
-          {isDemo ? '🔌 Use Custom URL' : '📱 Launch Demo App'}
+          📖 Wikipedia
         </button>
       </div>
     </div>
