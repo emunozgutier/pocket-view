@@ -40,6 +40,7 @@ interface SimulatorState {
   refreshKey: number;
   simulateBrowser: boolean;
   browserType: 'safari' | 'chrome' | 'firefox';
+  history: string[];
 
   setUrl: (url: string) => void;
   setSelectedDevice: (device: DeviceConfig) => void;
@@ -52,6 +53,7 @@ interface SimulatorState {
   setSimulateBrowser: (simulateBrowser: boolean) => void;
   toggleSimulateBrowser: () => void;
   setBrowserType: (browserType: 'safari' | 'chrome' | 'firefox') => void;
+  addToHistory: (url: string) => void;
   triggerRefresh: () => void;
 }
 
@@ -67,6 +69,7 @@ export const useSimulatorStore = create<SimulatorState>()(
       refreshKey: 0,
       simulateBrowser: true,
       browserType: 'safari',
+      history: ['https://en.m.wikipedia.org/'],
 
       setUrl: (url) => set({ url }),
       setSelectedDevice: (selectedDevice) => set({ selectedDevice }),
@@ -79,6 +82,12 @@ export const useSimulatorStore = create<SimulatorState>()(
       setSimulateBrowser: (simulateBrowser) => set({ simulateBrowser }),
       toggleSimulateBrowser: () => set((state) => ({ simulateBrowser: !state.simulateBrowser })),
       setBrowserType: (browserType) => set({ browserType }),
+      addToHistory: (url) => set((state) => {
+        const trimmed = url.trim();
+        if (!trimmed) return {};
+        const filtered = state.history.filter((item) => item.toLowerCase() !== trimmed.toLowerCase());
+        return { history: [trimmed, ...filtered].slice(0, 5) };
+      }),
       triggerRefresh: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
     }),
     {
@@ -92,9 +101,11 @@ export const useSimulatorStore = create<SimulatorState>()(
         canvasTheme: state.canvasTheme,
         simulateBrowser: state.simulateBrowser,
         browserType: state.browserType,
+        history: state.history,
       }),
     }
   )
 );
+
 
 

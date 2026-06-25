@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import './Address.css';
 import { useSimulatorStore } from '../stores/useSimulatorStore';
+import AddressHistory from './AddressHistory';
 
 export default function Address() {
   const url = useSimulatorStore((state) => state.url);
   const onChangeUrl = useSimulatorStore((state) => state.setUrl);
   const onRefresh = useSimulatorStore((state) => state.triggerRefresh);
+  const history = useSimulatorStore((state) => state.history);
+  const addToHistory = useSimulatorStore((state) => state.addToHistory);
 
   const [inputValue, setInputValue] = useState(url);
+  const [isFocused, setIsFocused] = useState(false);
 
   // Sync state if url is modified from parent (e.g. settings or device switch)
   useEffect(() => {
@@ -20,7 +24,50 @@ export default function Address() {
     if (formattedUrl && !/^https?:\/\//i.test(formattedUrl)) {
       formattedUrl = `https://${formattedUrl}`;
     }
-    onChangeUrl(formattedUrl);
+    if (formattedUrl) {
+      onChangeUrl(formattedUrl);
+      addToHistory(formattedUrl);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const prevValue = inputValue;
+    setInputValue(value);
+
+    // Auto-complete / inline guessing if typing forward
+    if (value.length > prevValue.length && history && history.length > 0) {
+      const cleanVal = value.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '');
+      if (cleanVal.length > 1) {
+        const match = history.find((item) => {
+          const cleanItem = item.toLowerCase().replace(/^(https?:\/\/)?(www\.)?/, '');
+          return cleanItem.startsWith(cleanVal) && cleanItem !== cleanVal;
+        });
+
+        if (match) {
+          const cleanMatch = match.replace(/^(https?:\/\/)?(www\.)?/, '');
+          const suffix = cleanMatch.slice(cleanVal.length);
+          const completedText = value + suffix;
+
+          setInputValue(completedText);
+
+          // Select the guessed suffix
+          setTimeout(() => {
+            const inputEl = document.querySelector('.url-input') as HTMLInputElement;
+            if (inputEl) {
+              inputEl.setSelectionRange(value.length, completedText.length);
+            }
+          }, 0);
+        }
+      }
+    }
+  };
+
+  const handleSelectSuggestion = (suggestedUrl: string) => {
+    setInputValue(suggestedUrl);
+    onChangeUrl(suggestedUrl);
+    addToHistory(suggestedUrl);
+    setIsFocused(false);
   };
 
   return (
@@ -69,7 +116,9 @@ export default function Address() {
             type="text"
             className="url-input"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={handleInputChange}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setTimeout(() => setIsFocused(false), 200)}
             placeholder="Enter website URL (e.g. wikipedia.org)"
           />
           {inputValue !== url && (
@@ -77,13 +126,22 @@ export default function Address() {
               Go
             </button>
           )}
+          
+          <AddressHistory
+            inputValue={inputValue}
+            onSelect={handleSelectSuggestion}
+            isVisible={isFocused}
+          />
         </div>
       </form>
 
       <div className="quick-actions">
         <button 
           className="demo-toggle-btn active"
-          onClick={() => onChangeUrl('https://en.m.wikipedia.org/')}
+          onClick={() => {
+            onChangeUrl('https://en.m.wikipedia.org/');
+            addToHistory('https://en.m.wikipedia.org/');
+          }}
           title="Point simulator to Wikipedia"
           type="button"
         >
