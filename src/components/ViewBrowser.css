@@ -15,7 +15,7 @@
   padding-top: 44px; /* clear top notch/island area */
 }
 .phone-mockup-frame.with-bezel.landscape-mode .simulated-mobile-browser {
-  padding-top: 24px;
+  padding-top: 10px;
 }
 .phone-mockup-frame.borderless .simulated-mobile-browser {
   padding-top: 0;
@@ -247,4 +247,44 @@
   border-color: rgba(0, 0, 0, 0.7);
   color: #000;
 }
+
+/* Landscape-specific layout and overrides (forces exact 814px width and custom heights) */
+.phone-mockup-frame.landscape-mode .simulated-mobile-browser {
+  padding-top: 10px; /* Thinner status bar padding in landscape */
+  padding-left: 59px; /* Safe area dynamic island/bezel inset (gives exactly 932 - 118 = 814px logical width) */
+  padding-right: 59px; /* Safe area inset */
+}
+
+/* Hide bottom bar in landscape mode */
+.phone-mockup-frame.landscape-mode .browser-mobile-bottom-bar {
+  display: none !important;
+  height: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* 1. Safari & Chrome Landscape top bar (46px top + 10px top padding = 56px chrome, viewport 374px) */
+.phone-mockup-frame.landscape-mode .browser-type-safari .browser-mobile-top-bar,
+.phone-mockup-frame.landscape-mode .browser-type-chrome .browser-mobile-top-bar {
+  height: 46px;
+}
+
+/* 2. Firefox Landscape top bar (70px top + 10px top padding = 80px chrome, viewport 350px) */
+.phone-mockup-frame.landscape-mode .browser-type-firefox .browser-mobile-top-bar {
+  height: 70px;
+}
+
+/* Ensure url input elements fit and look premium in landscape top bar */
+.phone-mockup-frame.landscape-mode .browser-type-safari .browser-mobile-url-box,
+.phone-mockup-frame.landscape-mode .browser-type-chrome .browser-mobile-url-box {
+  height: 30px;
+  border-radius: 8px;
+}
+
+.phone-mockup-frame.landscape-mode .browser-type-firefox .browser-mobile-url-box {
+  height: 38px;
+  border-radius: 8px;
+}
+
+
 
