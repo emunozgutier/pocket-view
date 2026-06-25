@@ -32,8 +32,12 @@ export default function View() {
       const devW = isLandscape ? selectedDevice.height : selectedDevice.width;
       const devH = isLandscape ? selectedDevice.width : selectedDevice.height;
 
-      const scaleX = containerW / devW;
-      const scaleY = containerH / devH;
+      const bezelOffset = showFrame ? 24 : 0;
+      const totalDevW = devW + bezelOffset;
+      const totalDevH = devH + bezelOffset;
+
+      const scaleX = containerW / totalDevW;
+      const scaleY = containerH / totalDevH;
 
       // Fit inside container but don't upscale past 100%
       const newScale = Math.min(scaleX, scaleY, 1);
@@ -60,6 +64,11 @@ export default function View() {
   const screenW = isLandscape ? selectedDevice.height : selectedDevice.width;
   const screenH = isLandscape ? selectedDevice.width : selectedDevice.height;
 
+  // Wrapper dimensions (adds bezel border to wrapper if frame is shown)
+  const bezelOffset = showFrame ? 24 : 0;
+  const wrapperW = screenW + bezelOffset;
+  const wrapperH = screenH + bezelOffset;
+
   // Format bezel/frame styling classes
   const frameClasses = [
     'phone-mockup-frame',
@@ -85,8 +94,8 @@ export default function View() {
         <div
           className="device-scroll-outer"
           style={{
-            width: `${screenW * activeScale}px`,
-            height: `${screenH * activeScale}px`,
+            width: `${wrapperW * activeScale}px`,
+            height: `${wrapperH * activeScale}px`,
           }}
         >
           {/* Simulator Device Wrapper (applies scaling) */}
@@ -94,8 +103,8 @@ export default function View() {
             className="device-scale-wrapper"
             style={{
               transform: `scale(${activeScale})`,
-              width: `${screenW}px`,
-              height: `${screenH}px`,
+              width: `${wrapperW}px`,
+              height: `${wrapperH}px`,
             }}
           >
         <div className={frameClasses}>
