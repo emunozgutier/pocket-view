@@ -160,11 +160,11 @@
 
 /* 1. Safari (default) */
 .browser-type-safari .browser-mobile-top-bar {
-  height: 54px;
+  height: 60px;
   background: #1d1d1f;
 }
 .browser-type-safari .browser-mobile-bottom-bar {
-  height: 62px;
+  height: 70px;
   background: #1d1d1f;
 }
 .canvas-theme-light .browser-type-safari .browser-mobile-top-bar,
@@ -175,11 +175,11 @@
 
 /* 2. Chrome */
 .browser-type-chrome .browser-mobile-top-bar {
-  height: 60px;
+  height: 63px;
   background: #202124;
 }
 .browser-type-chrome .browser-mobile-bottom-bar {
-  height: 75px;
+  height: 80px;
   background: #202124;
   padding-bottom: 12px;
 }
@@ -198,11 +198,11 @@
 
 /* 3. Firefox */
 .browser-type-firefox .browser-mobile-top-bar {
-  height: 67px;
+  height: 71px;
   background: #1c1b22;
 }
 .browser-type-firefox .browser-mobile-bottom-bar {
-  height: 82px;
+  height: 86px;
   background: #1c1b22;
   padding-bottom: 16px;
 }
