@@ -14,6 +14,8 @@ export default function SettingsSideBar() {
   const onChangeCanvasTheme = useSimulatorStore((state) => state.setCanvasTheme);
   const simulateBrowser = useSimulatorStore((state) => state.simulateBrowser);
   const onToggleSimulateBrowser = useSimulatorStore((state) => state.toggleSimulateBrowser);
+  const browserType = useSimulatorStore((state) => state.browserType);
+  const onChangeBrowserType = useSimulatorStore((state) => state.setBrowserType);
   // Group devices by series
   const seriesGroups = {
     'iPhone 16': DEVICES.filter(d => d.series === 'iPhone 16'),
@@ -91,6 +93,27 @@ export default function SettingsSideBar() {
             <span className="slider"></span>
           </label>
         </div>
+
+        {simulateBrowser && (
+          <div className="browser-select-row animate-fade-in">
+            <div className="setting-label">
+              <h4>Browser Style</h4>
+              <p>Simulate viewport dimensions</p>
+            </div>
+            <div className="browser-btn-group">
+              {(['safari', 'chrome', 'firefox'] as const).map((b) => (
+                <button
+                  key={b}
+                  className={`browser-btn ${browserType === b ? 'active' : ''}`}
+                  onClick={() => onChangeBrowserType(b)}
+                  type="button"
+                >
+                  {b === 'safari' ? 'Safari' : b === 'chrome' ? 'Chrome' : 'Firefox'}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="theme-select-container">
           <h4>Canvas Environment</h4>
