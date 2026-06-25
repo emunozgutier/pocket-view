@@ -1,122 +1,84 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState, useCallback } from 'react';
+import Address from './components/Address';
+import SettingsSideBar, { DEVICES } from './components/SettingsSideBar';
+import type { DeviceConfig } from './components/SettingsSideBar';
+import View from './components/View';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [url, setUrl] = useState<string>('pocketview://demo');
+  const [selectedDevice, setSelectedDevice] = useState<DeviceConfig>(DEVICES[0]);
+  const [isLandscape, setIsLandscape] = useState<boolean>(false);
+  const [scale, setScale] = useState<number | 'fit'>('fit');
+  const [showFrame, setShowFrame] = useState<boolean>(true);
+  const [canvasTheme, setCanvasTheme] = useState<'dark' | 'light' | 'blueprint'>('blueprint');
+  const [refreshKey, setRefreshKey] = useState<number>(0);
+
+  const handleRefresh = useCallback(() => {
+    setRefreshKey(prev => prev + 1);
+  }, []);
+
+  const handleToggleOrientation = useCallback(() => {
+    setIsLandscape(prev => !prev);
+  }, []);
+
+  const handleToggleFrame = useCallback(() => {
+    setShowFrame(prev => !prev);
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
+      {/* Top Navigation / Address Bar */}
+      <header className="app-top-header">
+        <div className="brand-section">
+          <span className="brand-icon">📱</span>
+          <span className="brand-name">Pocket View</span>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+        
+        <Address 
+          url={url} 
+          onChangeUrl={setUrl} 
+          onRefresh={handleRefresh} 
+        />
 
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        <div className="header-right">
+          <button 
+            className="icon-action-btn"
+            onClick={handleRefresh}
+            title="Reload viewport frame"
+            type="button"
+          >
+            🔄 Hard Reload
+          </button>
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      {/* Main Panel Split */}
+      <div className="app-main-layout">
+        <SettingsSideBar
+          selectedDevice={selectedDevice}
+          onSelectDevice={setSelectedDevice}
+          isLandscape={isLandscape}
+          onToggleOrientation={handleToggleOrientation}
+          scale={scale}
+          onChangeScale={setScale}
+          showFrame={showFrame}
+          onToggleFrame={handleToggleFrame}
+          canvasTheme={canvasTheme}
+          onChangeCanvasTheme={setCanvasTheme}
+        />
+
+        <View
+          url={url}
+          selectedDevice={selectedDevice}
+          isLandscape={isLandscape}
+          scale={scale}
+          showFrame={showFrame}
+          canvasTheme={canvasTheme}
+          refreshKey={refreshKey}
+        />
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
