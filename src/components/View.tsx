@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from 'react';
 import type { DeviceConfig } from './SettingsSideBar';
 import ViewBrowser from './ViewBrowser';
+import './View.css';
 
 interface ViewProps {
   url: string;

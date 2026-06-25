@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import './App.css';
 import Address from './components/Address';
 import SettingsSideBar, { DEVICES } from './components/SettingsSideBar';
 import type { DeviceConfig } from './components/SettingsSideBar';

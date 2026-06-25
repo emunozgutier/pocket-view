@@ -1,3 +1,4 @@
+import './SettingsSideBar.css';
 
 export interface DeviceConfig {
   name: string;

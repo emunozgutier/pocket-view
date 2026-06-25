@@ -1,3 +1,4 @@
+import './ViewBrowser.css';
 
 const formatDisplayUrl = (urlStr: string) => {
   try {

@@ -1,0 +1,131 @@
+/* Address Bar UI styles */
+.address-bar-container {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-color);
+  border-radius: 30px;
+  padding: 4px 8px;
+  gap: 12px;
+  width: 50%;
+  max-width: 680px;
+  min-width: 320px;
+  transition: var(--transition-smooth);
+}
+
+.address-bar-container:focus-within {
+  border-color: rgba(var(--brand-primary-rgb), 0.5);
+  box-shadow: 0 0 12px rgba(var(--brand-primary-rgb), 0.2);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.browser-navigation {
+  display: flex;
+  gap: 4px;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.nav-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.nav-btn:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.url-form {
+  flex-grow: 1;
+}
+
+.url-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.security-icon {
+  display: flex;
+  align-items: center;
+  color: #10b981; /* Green secure icon */
+}
+
+.url-input {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+}
+
+.url-input::placeholder {
+  color: var(--text-muted);
+}
+
+.go-btn {
+  background: var(--brand-primary);
+  border: none;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.go-btn:hover {
+  background: #b5179e;
+}
+
+.quick-actions {
+  display: flex;
+  align-items: center;
+}
+
+.demo-toggle-btn {
+  background: linear-gradient(135deg, rgba(var(--brand-primary-rgb), 0.15), rgba(255, 117, 143, 0.15));
+  border: 1px solid rgba(var(--brand-primary-rgb), 0.3);
+  color: #d8b4fe;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.demo-toggle-btn:hover {
+  background: linear-gradient(135deg, rgba(var(--brand-primary-rgb), 0.3), rgba(255, 117, 143, 0.3));
+  border-color: rgba(var(--brand-primary-rgb), 0.6);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.demo-toggle-btn.active {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(var(--brand-primary-rgb), 0.3);
+}

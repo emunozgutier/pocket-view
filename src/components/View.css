@@ -1,0 +1,358 @@
+/* Main Viewport Workspace Canvas Area */
+.viewport-canvas-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition-smooth);
+}
+
+.viewport-canvas-scrollable {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  padding: 40px;
+  box-sizing: border-box;
+}
+
+.device-scroll-outer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin: auto;
+}
+
+/* Custom scrollbars for canvas and sidebar */
+.viewport-canvas-scrollable::-webkit-scrollbar,
+.settings-sidebar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-track,
+.settings-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-thumb,
+.settings-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+}
+
+.viewport-canvas-scrollable::-webkit-scrollbar-thumb:hover,
+.settings-sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* Canvas theme backgrounds */
+.canvas-theme-dark {
+  background-color: #0b0c10;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.canvas-theme-light {
+  background-color: #f1f3f9;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.canvas-theme-light .canvas-zoom-badge {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #1e293b;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.canvas-theme-blueprint {
+  background-color: #1a253c;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+/* Canvas top status indicator */
+.canvas-zoom-badge {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+  backdrop-filter: blur(10px);
+}
+
+.canvas-zoom-badge .divider {
+  color: var(--text-muted);
+}
+
+/* Device Scale wrapper & core styles */
+.device-scale-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+  transform-origin: center center;
+}
+
+/* Device mockup outer skin frame */
+.phone-mockup-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: var(--transition-smooth);
+}
+
+/* Outer bezel */
+.phone-mockup-frame.with-bezel {
+  border: 12px solid var(--bezel-color);
+  border-radius: 46px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1), inset 0 0 2px 2px rgba(255, 255, 255, 0.1);
+  background: #000;
+}
+
+.phone-mockup-frame.borderless {
+  border: none;
+  border-radius: 0px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+/* Inner Screen content container */
+.phone-screen-viewport {
+  width: 100%;
+  height: 100%;
+  border-radius: 34px;
+  overflow: hidden;
+  position: relative;
+  background: #fff;
+  color: #000;
+}
+
+.phone-mockup-frame.borderless .phone-screen-viewport {
+  border-radius: 0px;
+}
+
+/* Iframe inside phone screen */
+.simulated-iframe {
+  border: none;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  display: block;
+}
+
+/* Bezel ring details */
+.screen-bezel-ring {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  border-radius: 44px;
+}
+
+/* iPhone Notch sensor */
+.phone-notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 160px;
+  height: 30px;
+  background: var(--bezel-color);
+  border-bottom-left-radius: 18px;
+  border-bottom-right-radius: 18px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.camera-lens {
+  width: 8px;
+  height: 8px;
+  background: #111;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(255,255,255,0.2);
+}
+
+.speaker-earpiece {
+  width: 45px;
+  height: 4px;
+  background: #222;
+  border-radius: 3px;
+}
+
+/* Dynamic Island */
+.phone-dynamic-island {
+  position: absolute;
+  top: 11px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 110px;
+  height: 28px;
+  background: #000;
+  border-radius: 20px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  box-shadow: inset 0 0.5px 1px rgba(255, 255, 255, 0.15);
+  transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Subtle camera lens reflections */
+.island-lens {
+  width: 7px;
+  height: 7px;
+  background: #0d121f;
+  border-radius: 50%;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.2);
+}
+
+.island-sensor {
+  width: 6px;
+  height: 6px;
+  background: #0a0a0a;
+  border-radius: 50%;
+}
+
+/* Landscape frame details overrides */
+.phone-mockup-frame.landscape-mode.bezel-notch .phone-notch {
+  width: 30px;
+  height: 160px;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  border-top-right-radius: 18px;
+  border-bottom-right-radius: 18px;
+  border-bottom-left-radius: 0;
+  flex-direction: column;
+}
+
+.phone-mockup-frame.landscape-mode.bezel-notch .speaker-earpiece {
+  width: 4px;
+  height: 45px;
+}
+
+.phone-mockup-frame.landscape-mode.bezel-dynamic-island .phone-dynamic-island {
+  width: 28px;
+  height: 110px;
+  top: 50%;
+  left: 11px;
+  transform: translateY(-50%);
+  flex-direction: column;
+  padding: 14px 0;
+}
+
+/* Home Indicator bar at base of display */
+.iphone-home-indicator {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 10px;
+  z-index: 100;
+  pointer-events: none;
+}
+
+.phone-mockup-frame.landscape-mode .iphone-home-indicator {
+  bottom: 8px;
+}
+
+/* Status Bar components */
+.iphone-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 28px 8px;
+  z-index: 99;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.phone-mockup-frame.bezel-notch .iphone-status-bar {
+  height: 40px;
+}
+
+.phone-mockup-frame.landscape-mode .iphone-status-bar {
+  height: 32px;
+  padding: 0 40px 0;
+  align-items: center;
+}
+
+.status-icons {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-icon-svg {
+  opacity: 0.9;
+}
+
+/* Direct iframe adjustments inside frame */
+.phone-screen-viewport > .simulated-iframe {
+  padding-top: 40px;
+}
+
+.phone-mockup-frame.landscape-mode .phone-screen-viewport > .simulated-iframe {
+  padding-top: 24px;
+}
+
+.phone-mockup-frame.borderless .phone-screen-viewport > .simulated-iframe {
+  padding-top: 0;
+}
+
+/* CORS Help banner overlay */
+.cors-help-overlay {
+  position: absolute;
+  bottom: 16px;
+  right: 16px;
+  max-width: 380px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid var(--border-color);
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--text-secondary);
+  backdrop-filter: blur(10px);
+  z-index: 5;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+.cors-help-overlay code {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: var(--font-mono);
+}
