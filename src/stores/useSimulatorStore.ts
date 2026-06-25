@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 export interface DeviceConfig {
   name: string;
@@ -54,28 +55,46 @@ interface SimulatorState {
   triggerRefresh: () => void;
 }
 
-export const useSimulatorStore = create<SimulatorState>((set) => ({
-  url: 'https://en.m.wikipedia.org/',
-  selectedDevice: DEVICES[0],
-  isLandscape: false,
-  scale: 'fit',
-  showFrame: true,
-  canvasTheme: 'blueprint',
-  refreshKey: 0,
-  simulateBrowser: true,
-  browserType: 'safari',
+export const useSimulatorStore = create<SimulatorState>()(
+  persist(
+    (set) => ({
+      url: 'https://en.m.wikipedia.org/',
+      selectedDevice: DEVICES[0],
+      isLandscape: false,
+      scale: 'fit',
+      showFrame: true,
+      canvasTheme: 'blueprint',
+      refreshKey: 0,
+      simulateBrowser: true,
+      browserType: 'safari',
 
-  setUrl: (url) => set({ url }),
-  setSelectedDevice: (selectedDevice) => set({ selectedDevice }),
-  setIsLandscape: (isLandscape) => set({ isLandscape }),
-  toggleOrientation: () => set((state) => ({ isLandscape: !state.isLandscape })),
-  setScale: (scale) => set({ scale }),
-  setShowFrame: (showFrame) => set({ showFrame }),
-  toggleFrame: () => set((state) => ({ showFrame: !state.showFrame })),
-  setCanvasTheme: (canvasTheme) => set({ canvasTheme }),
-  setSimulateBrowser: (simulateBrowser) => set({ simulateBrowser }),
-  toggleSimulateBrowser: () => set((state) => ({ simulateBrowser: !state.simulateBrowser })),
-  setBrowserType: (browserType) => set({ browserType }),
-  triggerRefresh: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
-}));
+      setUrl: (url) => set({ url }),
+      setSelectedDevice: (selectedDevice) => set({ selectedDevice }),
+      setIsLandscape: (isLandscape) => set({ isLandscape }),
+      toggleOrientation: () => set((state) => ({ isLandscape: !state.isLandscape })),
+      setScale: (scale) => set({ scale }),
+      setShowFrame: (showFrame) => set({ showFrame }),
+      toggleFrame: () => set((state) => ({ showFrame: !state.showFrame })),
+      setCanvasTheme: (canvasTheme) => set({ canvasTheme }),
+      setSimulateBrowser: (simulateBrowser) => set({ simulateBrowser }),
+      toggleSimulateBrowser: () => set((state) => ({ simulateBrowser: !state.simulateBrowser })),
+      setBrowserType: (browserType) => set({ browserType }),
+      triggerRefresh: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
+    }),
+    {
+      name: 'pocket-view-simulator-settings',
+      partialize: (state) => ({
+        url: state.url,
+        selectedDevice: state.selectedDevice,
+        isLandscape: state.isLandscape,
+        scale: state.scale,
+        showFrame: state.showFrame,
+        canvasTheme: state.canvasTheme,
+        simulateBrowser: state.simulateBrowser,
+        browserType: state.browserType,
+      }),
+    }
+  )
+);
+
 
