@@ -12,6 +12,7 @@ function App() {
   const [showFrame, setShowFrame] = useState<boolean>(true);
   const [canvasTheme, setCanvasTheme] = useState<'dark' | 'light' | 'blueprint'>('blueprint');
   const [refreshKey, setRefreshKey] = useState<number>(0);
+  const [simulateBrowser, setSimulateBrowser] = useState<boolean>(true);
 
   const handleRefresh = useCallback(() => {
     setRefreshKey(prev => prev + 1);
@@ -65,6 +66,8 @@ function App() {
           onToggleFrame={handleToggleFrame}
           canvasTheme={canvasTheme}
           onChangeCanvasTheme={setCanvasTheme}
+          simulateBrowser={simulateBrowser}
+          onToggleSimulateBrowser={() => setSimulateBrowser(prev => !prev)}
         />
 
         <View
@@ -75,6 +78,8 @@ function App() {
           showFrame={showFrame}
           canvasTheme={canvasTheme}
           refreshKey={refreshKey}
+          simulateBrowser={simulateBrowser}
+          onRefresh={handleRefresh}
         />
       </div>
     </div>

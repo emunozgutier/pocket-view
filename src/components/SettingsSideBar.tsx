@@ -39,6 +39,8 @@ interface SettingsSideBarProps {
   onToggleFrame: () => void;
   canvasTheme: 'dark' | 'light' | 'blueprint';
   onChangeCanvasTheme: (theme: 'dark' | 'light' | 'blueprint') => void;
+  simulateBrowser: boolean;
+  onToggleSimulateBrowser: () => void;
 }
 
 export default function SettingsSideBar({
@@ -52,6 +54,8 @@ export default function SettingsSideBar({
   onToggleFrame,
   canvasTheme,
   onChangeCanvasTheme,
+  simulateBrowser,
+  onToggleSimulateBrowser,
 }: SettingsSideBarProps) {
   // Group devices by series
   const seriesGroups = {
@@ -116,6 +120,17 @@ export default function SettingsSideBar({
           </div>
           <label className="toggle-switch">
             <input type="checkbox" checked={showFrame} onChange={onToggleFrame} />
+            <span className="slider"></span>
+          </label>
+        </div>
+
+        <div className="toggle-setting-row">
+          <div className="setting-label">
+            <h4>Simulate Browser</h4>
+            <p>Mock address bar & bottom tabs</p>
+          </div>
+          <label className="toggle-switch">
+            <input type="checkbox" checked={simulateBrowser} onChange={onToggleSimulateBrowser} />
             <span className="slider"></span>
           </label>
         </div>
