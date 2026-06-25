@@ -1,4 +1,5 @@
 import './ViewBrowser.css';
+import { useSimulatorStore } from '../stores/useSimulatorStore';
 
 const formatDisplayUrl = (urlStr: string) => {
   try {
@@ -9,17 +10,11 @@ const formatDisplayUrl = (urlStr: string) => {
   }
 };
 
-interface ViewBrowserProps {
-  url: string;
-  refreshKey: number;
-  onRefresh: () => void;
-}
+export default function ViewBrowser() {
+  const url = useSimulatorStore((state) => state.url);
+  const refreshKey = useSimulatorStore((state) => state.refreshKey);
+  const onRefresh = useSimulatorStore((state) => state.triggerRefresh);
 
-export default function ViewBrowser({
-  url,
-  refreshKey,
-  onRefresh,
-}: ViewBrowserProps) {
   return (
     <div className="simulated-mobile-browser">
       {/* Simulated Top Address Bar */}
@@ -64,3 +59,4 @@ export default function ViewBrowser({
     </div>
   );
 }
+

@@ -1,31 +1,18 @@
 import { useRef, useState, useEffect } from 'react';
-import type { DeviceConfig } from './SettingsSideBar';
 import ViewBrowser from './ViewBrowser';
 import './View.css';
+import { useSimulatorStore } from '../stores/useSimulatorStore';
 
-interface ViewProps {
-  url: string;
-  selectedDevice: DeviceConfig;
-  isLandscape: boolean;
-  scale: number | 'fit';
-  showFrame: boolean;
-  canvasTheme: 'dark' | 'light' | 'blueprint';
-  refreshKey: number;
-  simulateBrowser: boolean;
-  onRefresh: () => void;
-}
+export default function View() {
+  const url = useSimulatorStore((state) => state.url);
+  const selectedDevice = useSimulatorStore((state) => state.selectedDevice);
+  const isLandscape = useSimulatorStore((state) => state.isLandscape);
+  const scale = useSimulatorStore((state) => state.scale);
+  const showFrame = useSimulatorStore((state) => state.showFrame);
+  const canvasTheme = useSimulatorStore((state) => state.canvasTheme);
+  const refreshKey = useSimulatorStore((state) => state.refreshKey);
+  const simulateBrowser = useSimulatorStore((state) => state.simulateBrowser);
 
-export default function View({
-  url,
-  selectedDevice,
-  isLandscape,
-  scale,
-  showFrame,
-  canvasTheme,
-  refreshKey,
-  simulateBrowser,
-  onRefresh,
-}: ViewProps) {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [fitScale, setFitScale] = useState(1);
 
@@ -157,11 +144,7 @@ export default function View({
           {/* Device Screen Body */}
           <div className="phone-screen-viewport">
             {simulateBrowser ? (
-              <ViewBrowser
-                url={url}
-                refreshKey={refreshKey}
-                onRefresh={onRefresh}
-              />
+              <ViewBrowser />
             ) : (
               // Standard full-screen viewport (like a native app or direct webapp view)
               <iframe

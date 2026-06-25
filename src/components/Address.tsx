@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import './Address.css';
+import { useSimulatorStore } from '../stores/useSimulatorStore';
 
-interface AddressProps {
-  url: string;
-  onChangeUrl: (url: string) => void;
-  onRefresh: () => void;
-}
+export default function Address() {
+  const url = useSimulatorStore((state) => state.url);
+  const onChangeUrl = useSimulatorStore((state) => state.setUrl);
+  const onRefresh = useSimulatorStore((state) => state.triggerRefresh);
 
-export default function Address({ url, onChangeUrl, onRefresh }: AddressProps) {
   const [inputValue, setInputValue] = useState(url);
 
   // Sync state if url is modified from parent (e.g. settings or device switch)

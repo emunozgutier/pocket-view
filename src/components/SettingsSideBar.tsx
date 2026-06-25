@@ -1,63 +1,19 @@
 import './SettingsSideBar.css';
+import { useSimulatorStore, DEVICES } from '../stores/useSimulatorStore';
 
-export interface DeviceConfig {
-  name: string;
-  width: number;
-  height: number;
-  bezel: 'notch' | 'dynamic-island';
-  diagonal: string;
-  series: 'iPhone 14' | 'iPhone 15' | 'iPhone 16';
-}
-
-export const DEVICES: DeviceConfig[] = [
-  // iPhone 16 Series
-  { name: 'iPhone 16 Pro Max', width: 440, height: 956, bezel: 'dynamic-island', diagonal: '6.9"', series: 'iPhone 16' },
-  { name: 'iPhone 16 Pro', width: 402, height: 874, bezel: 'dynamic-island', diagonal: '6.3"', series: 'iPhone 16' },
-  { name: 'iPhone 16 Plus', width: 430, height: 932, bezel: 'dynamic-island', diagonal: '6.7"', series: 'iPhone 16' },
-  { name: 'iPhone 16', width: 393, height: 852, bezel: 'dynamic-island', diagonal: '6.1"', series: 'iPhone 16' },
-  
-  // iPhone 15 Series
-  { name: 'iPhone 15 Pro Max', width: 430, height: 932, bezel: 'dynamic-island', diagonal: '6.7"', series: 'iPhone 15' },
-  { name: 'iPhone 15 Pro', width: 393, height: 852, bezel: 'dynamic-island', diagonal: '6.1"', series: 'iPhone 15' },
-  { name: 'iPhone 15 Plus', width: 430, height: 932, bezel: 'dynamic-island', diagonal: '6.7"', series: 'iPhone 15' },
-  { name: 'iPhone 15', width: 393, height: 852, bezel: 'dynamic-island', diagonal: '6.1"', series: 'iPhone 15' },
-  
-  // iPhone 14 Series
-  { name: 'iPhone 14 Pro Max', width: 430, height: 932, bezel: 'dynamic-island', diagonal: '6.7"', series: 'iPhone 14' },
-  { name: 'iPhone 14 Pro', width: 393, height: 852, bezel: 'dynamic-island', diagonal: '6.1"', series: 'iPhone 14' },
-  { name: 'iPhone 14 Plus', width: 428, height: 926, bezel: 'notch', diagonal: '6.7"', series: 'iPhone 14' },
-  { name: 'iPhone 14', width: 390, height: 844, bezel: 'notch', diagonal: '6.1"', series: 'iPhone 14' },
-];
-
-interface SettingsSideBarProps {
-  selectedDevice: DeviceConfig;
-  onSelectDevice: (device: DeviceConfig) => void;
-  isLandscape: boolean;
-  onToggleOrientation: () => void;
-  scale: number | 'fit';
-  onChangeScale: (scale: number | 'fit') => void;
-  showFrame: boolean;
-  onToggleFrame: () => void;
-  canvasTheme: 'dark' | 'light' | 'blueprint';
-  onChangeCanvasTheme: (theme: 'dark' | 'light' | 'blueprint') => void;
-  simulateBrowser: boolean;
-  onToggleSimulateBrowser: () => void;
-}
-
-export default function SettingsSideBar({
-  selectedDevice,
-  onSelectDevice,
-  isLandscape,
-  onToggleOrientation,
-  scale,
-  onChangeScale,
-  showFrame,
-  onToggleFrame,
-  canvasTheme,
-  onChangeCanvasTheme,
-  simulateBrowser,
-  onToggleSimulateBrowser,
-}: SettingsSideBarProps) {
+export default function SettingsSideBar() {
+  const selectedDevice = useSimulatorStore((state) => state.selectedDevice);
+  const onSelectDevice = useSimulatorStore((state) => state.setSelectedDevice);
+  const isLandscape = useSimulatorStore((state) => state.isLandscape);
+  const onToggleOrientation = useSimulatorStore((state) => state.toggleOrientation);
+  const scale = useSimulatorStore((state) => state.scale);
+  const onChangeScale = useSimulatorStore((state) => state.setScale);
+  const showFrame = useSimulatorStore((state) => state.showFrame);
+  const onToggleFrame = useSimulatorStore((state) => state.toggleFrame);
+  const canvasTheme = useSimulatorStore((state) => state.canvasTheme);
+  const onChangeCanvasTheme = useSimulatorStore((state) => state.setCanvasTheme);
+  const simulateBrowser = useSimulatorStore((state) => state.simulateBrowser);
+  const onToggleSimulateBrowser = useSimulatorStore((state) => state.toggleSimulateBrowser);
   // Group devices by series
   const seriesGroups = {
     'iPhone 16': DEVICES.filter(d => d.series === 'iPhone 16'),
