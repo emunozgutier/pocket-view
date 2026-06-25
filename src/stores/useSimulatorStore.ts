@@ -38,6 +38,7 @@ interface SimulatorState {
   canvasTheme: 'dark' | 'light' | 'blueprint';
   refreshKey: number;
   simulateBrowser: boolean;
+  browserType: 'safari' | 'chrome' | 'firefox';
 
   setUrl: (url: string) => void;
   setSelectedDevice: (device: DeviceConfig) => void;
@@ -49,6 +50,7 @@ interface SimulatorState {
   setCanvasTheme: (theme: 'dark' | 'light' | 'blueprint') => void;
   setSimulateBrowser: (simulateBrowser: boolean) => void;
   toggleSimulateBrowser: () => void;
+  setBrowserType: (browserType: 'safari' | 'chrome' | 'firefox') => void;
   triggerRefresh: () => void;
 }
 
@@ -61,6 +63,7 @@ export const useSimulatorStore = create<SimulatorState>((set) => ({
   canvasTheme: 'blueprint',
   refreshKey: 0,
   simulateBrowser: true,
+  browserType: 'safari',
 
   setUrl: (url) => set({ url }),
   setSelectedDevice: (selectedDevice) => set({ selectedDevice }),
@@ -72,5 +75,7 @@ export const useSimulatorStore = create<SimulatorState>((set) => ({
   setCanvasTheme: (canvasTheme) => set({ canvasTheme }),
   setSimulateBrowser: (simulateBrowser) => set({ simulateBrowser }),
   toggleSimulateBrowser: () => set((state) => ({ simulateBrowser: !state.simulateBrowser })),
+  setBrowserType: (browserType) => set({ browserType }),
   triggerRefresh: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
 }));
+
