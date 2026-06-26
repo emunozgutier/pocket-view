@@ -90,7 +90,7 @@ export default function View() {
       </div>
 
       {/* Scrollable Container for Device mockup */}
-      <div className="viewport-canvas-scrollable">
+      <div className={`viewport-canvas-scrollable ${isLandscape ? 'landscape' : 'portrait'}`}>
         <div
           className="device-scroll-outer"
           style={{

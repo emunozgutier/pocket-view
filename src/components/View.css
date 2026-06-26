@@ -23,6 +23,10 @@
   margin: auto;
 }
 
+.viewport-canvas-scrollable.landscape .device-scroll-outer {
+  margin: 45px auto auto;
+}
+
 /* Custom scrollbars for canvas and sidebar */
 .viewport-canvas-scrollable::-webkit-scrollbar,
 .settings-sidebar::-webkit-scrollbar {
