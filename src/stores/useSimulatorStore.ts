@@ -41,6 +41,7 @@ interface SimulatorState {
   simulateBrowser: boolean;
   browserType: 'safari' | 'chrome' | 'firefox';
   history: string[];
+  showSidebar: boolean;
 
   setUrl: (url: string) => void;
   setSelectedDevice: (device: DeviceConfig) => void;
@@ -55,6 +56,8 @@ interface SimulatorState {
   setBrowserType: (browserType: 'safari' | 'chrome' | 'firefox') => void;
   addToHistory: (url: string) => void;
   triggerRefresh: () => void;
+  setShowSidebar: (show: boolean) => void;
+  toggleSidebar: () => void;
 }
 
 export const useSimulatorStore = create<SimulatorState>()(
@@ -70,6 +73,7 @@ export const useSimulatorStore = create<SimulatorState>()(
       simulateBrowser: true,
       browserType: 'safari',
       history: ['https://en.m.wikipedia.org/'],
+      showSidebar: true,
 
       setUrl: (url) => set({ url }),
       setSelectedDevice: (selectedDevice) => set({ selectedDevice }),
@@ -89,6 +93,8 @@ export const useSimulatorStore = create<SimulatorState>()(
         return { history: [trimmed, ...filtered].slice(0, 5) };
       }),
       triggerRefresh: () => set((state) => ({ refreshKey: state.refreshKey + 1 })),
+      setShowSidebar: (showSidebar) => set({ showSidebar }),
+      toggleSidebar: () => set((state) => ({ showSidebar: !state.showSidebar })),
     }),
     {
       name: 'pocket-view-simulator-settings',
@@ -102,6 +108,7 @@ export const useSimulatorStore = create<SimulatorState>()(
         simulateBrowser: state.simulateBrowser,
         browserType: state.browserType,
         history: state.history,
+        showSidebar: state.showSidebar,
       }),
     }
   )

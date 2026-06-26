@@ -60,6 +60,16 @@
   color: #fff;
 }
 
+.icon-action-btn.active {
+  background: rgba(var(--brand-primary-rgb), 0.15);
+  border-color: rgba(var(--brand-primary-rgb), 0.4);
+  color: #fff;
+}
+
+.icon-action-btn.active:hover {
+  background: rgba(var(--brand-primary-rgb), 0.25);
+}
+
 .app-main-layout {
   display: flex;
   flex: 1;

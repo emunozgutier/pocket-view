@@ -6,6 +6,8 @@ import { useSimulatorStore } from './stores/useSimulatorStore';
 
 function App() {
   const triggerRefresh = useSimulatorStore(state => state.triggerRefresh);
+  const showSidebar = useSimulatorStore(state => state.showSidebar);
+  const toggleSidebar = useSimulatorStore(state => state.toggleSidebar);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', width: '100%' }}>
@@ -20,6 +22,15 @@ function App() {
 
         <div className="header-right">
           <button 
+            className={`icon-action-btn toggle-controls-btn ${showSidebar ? 'active' : ''}`}
+            onClick={toggleSidebar}
+            title={showSidebar ? "Hide settings sidebar" : "Show settings sidebar"}
+            type="button"
+          >
+            ⚙️ {showSidebar ? 'Hide Controls' : 'Show Controls'}
+          </button>
+          
+          <button 
             className="icon-action-btn"
             onClick={triggerRefresh}
             title="Reload viewport frame"
@@ -31,7 +42,7 @@ function App() {
       </header>
 
       {/* Main Panel Split */}
-      <div className="app-main-layout">
+      <div className={`app-main-layout ${showSidebar ? 'sidebar-visible' : 'sidebar-hidden'}`}>
         <SettingsSideBar />
         <View />
       </div>
