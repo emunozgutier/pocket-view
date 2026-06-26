@@ -16,12 +16,13 @@ export default function SettingsSideBar() {
   const onToggleSimulateBrowser = useSimulatorStore((state) => state.toggleSimulateBrowser);
   const browserType = useSimulatorStore((state) => state.browserType);
   const onChangeBrowserType = useSimulatorStore((state) => state.setBrowserType);
-  // Group devices by series
-  const seriesGroups = {
-    'iPhone 16': DEVICES.filter(d => d.series === 'iPhone 16'),
-    'iPhone 15': DEVICES.filter(d => d.series === 'iPhone 15'),
-    'iPhone 14': DEVICES.filter(d => d.series === 'iPhone 14'),
+  // Helper to extract device model version (e.g. Pro Max, Pro, Plus, Standard)
+  const getVersionLabel = (name: string, series: string): string => {
+    if (name === series) return 'Standard';
+    return name.replace(series + ' ', '');
   };
+
+  const seriesList = Array.from(new Set(DEVICES.map(d => d.series)));
 
   return (
     <aside className="settings-sidebar">
@@ -134,35 +135,87 @@ export default function SettingsSideBar() {
 
       <div className="sidebar-section devices-section">
         <h3>iPhone Viewports</h3>
-        {Object.entries(seriesGroups).map(([series, list]) => (
-          <div key={series} className="device-group-wrapper">
-            <div className="device-group-header">{series} Series</div>
-            <div className="device-list">
-              {list.map(dev => {
-                const isActive = selectedDevice.name === dev.name;
-                const widthLabel = isLandscape ? dev.height : dev.width;
-                const heightLabel = isLandscape ? dev.width : dev.height;
+        
+        <div className="device-selectors">
+          <div className="select-wrapper">
+            <label htmlFor="device-gen-select">Generation</label>
+            <select
+              id="device-gen-select"
+              value={selectedDevice.series}
+              onChange={(e) => {
+                const newSeries = e.target.value as typeof selectedDevice.series;
+                const currentVersion = getVersionLabel(selectedDevice.name, selectedDevice.series);
+                
+                // Find matching version in the new series
+                const match = DEVICES.find(
+                  d => d.series === newSeries && getVersionLabel(d.name, d.series) === currentVersion
+                );
+                
+                if (match) {
+                  onSelectDevice(match);
+                } else {
+                  const fallback = DEVICES.find(d => d.series === newSeries);
+                  if (fallback) onSelectDevice(fallback);
+                }
+              }}
+              className="device-select"
+            >
+              {seriesList.map((series) => (
+                <option key={series} value={series}>
+                  {series} Series
+                </option>
+              ))}
+            </select>
+          </div>
 
+          <div className="select-wrapper">
+            <label htmlFor="device-version-select">Model Version</label>
+            <select
+              id="device-version-select"
+              value={getVersionLabel(selectedDevice.name, selectedDevice.series)}
+              onChange={(e) => {
+                const newVersion = e.target.value;
+                const match = DEVICES.find(
+                  d => d.series === selectedDevice.series && getVersionLabel(d.name, d.series) === newVersion
+                );
+                if (match) {
+                  onSelectDevice(match);
+                }
+              }}
+              className="device-select"
+            >
+              {DEVICES.filter(d => d.series === selectedDevice.series).map((d) => {
+                const version = getVersionLabel(d.name, d.series);
                 return (
-                  <button
-                    key={dev.name}
-                    className={`device-item-btn ${isActive ? 'active' : ''}`}
-                    onClick={() => onSelectDevice(dev)}
-                    type="button"
-                  >
-                    <div className="dev-meta">
-                      <span className="dev-name">{dev.name}</span>
-                      <span className="dev-diagonal">{dev.diagonal} • {dev.bezel === 'notch' ? 'Notch' : 'Island'}</span>
-                    </div>
-                    <span className="dev-resolution">
-                      {widthLabel} × {heightLabel} pt
-                    </span>
-                  </button>
+                  <option key={d.name} value={version}>
+                    {version}
+                  </option>
                 );
               })}
+            </select>
+          </div>
+        </div>
+
+        <div className="selected-device-details animate-fade-in" key={selectedDevice.name}>
+          <div className="details-header">
+            <span className="details-title">{selectedDevice.name}</span>
+            <span className="details-badge">
+              {selectedDevice.bezel === 'notch' ? 'Notch' : 'Dynamic Island'}
+            </span>
+          </div>
+          <div className="details-body">
+            <div className="detail-item">
+              <span className="detail-label">Diagonal</span>
+              <span className="detail-value">{selectedDevice.diagonal}</span>
+            </div>
+            <div className="detail-item">
+              <span className="detail-label">Resolution</span>
+              <span className="detail-value">
+                {isLandscape ? selectedDevice.height : selectedDevice.width} × {isLandscape ? selectedDevice.width : selectedDevice.height} pt
+              </span>
             </div>
           </div>
-        ))}
+        </div>
       </div>
     </aside>
   );
